@@ -1,0 +1,38 @@
+name: 'Deploy ASP.NET Core app to Azure Web App'
+ 
+on:
+  push:
+    branches:
+      - "main"
+jobs:
+  build-and-publish:
+    runs-on: ubuntu-latest
+    steps:
+ 
+      # Checkout the repo
+      - uses: actions/checkout@master      
+ 
+      # Publish artifact
+      - name: Publish artifact
+        run: |
+          echo "Bulid and publish completed"
+ 
+  deploy-dev:
+    runs-on: 'ubuntu-latest'
+    environment: 'dev'
+    needs: build-and-publish
+    steps:
+      # Deploy to web app
+      - name: Deploy to web app
+        run: |
+          echo "Deployment on dev has been completed"
+ 
+  deploy-prod:
+    runs-on: 'ubuntu-latest'
+    environment: 'prod'
+    needs: [build-and-publish, deploy-dev]
+    steps:
+      # Deploy to web app
+      - name: Deploy to web app
+        run: |
+          echo "Deployment on prod has been completed"
